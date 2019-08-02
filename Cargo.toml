@@ -1,0 +1,16 @@
+[package]
+name = "invoices"
+version = "0.1.0"
+authors = ["Finnkauski <iwiivi@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dotenv = "*"
+log = "*"
+env_logger = "*"
+
+[dependencies.serenity]
+features = ["framework", "standard_framework"]
+version="*"
