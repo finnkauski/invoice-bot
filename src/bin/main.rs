@@ -1,23 +1,24 @@
-extern crate env_logger;
-extern crate dotenv; // needed to load variables from a .env file
+extern crate dotenv;
+extern crate env_logger; // needed to load variables from a .env file
 
 // discord related imports
 use serenity::{
     framework::standard::{
-        StandardFramework,
+        help_commands,
         macros::{group, help},
-        Args, CommandGroup, CommandResult, HelpOptions, help_commands},
-    model::{event::ResumedEvent, gateway::Ready, channel::{Message}, id::UserId},
+        Args, CommandGroup, CommandResult, HelpOptions, StandardFramework,
+    },
+    model::{channel::Message, event::ResumedEvent, gateway::Ready, id::UserId},
     prelude::*,
 };
 
 // logging, env vars and hashset
-use std::env;
 use log::info;
-use std::{collections::HashSet};
+use std::collections::HashSet;
+use std::env;
 
 // load in the commands from the sub-module
-use invoices::commands::{invoice::*};
+use invoices::commands::invoice::*;
 
 // event handler
 struct Handler;
@@ -31,7 +32,6 @@ impl EventHandler for Handler {
         info!("Resumed");
     }
 }
-
 
 group!({
     name: "invoice",
@@ -51,7 +51,7 @@ fn my_help(
     args: Args,
     help_options: &'static HelpOptions,
     groups: &[&'static CommandGroup],
-    owners: HashSet<UserId>
+    owners: HashSet<UserId>,
 ) -> CommandResult {
     help_commands::with_embeds(context, msg, args, help_options, groups, owners)
 }
@@ -62,29 +62,23 @@ fn main() {
     env_logger::init();
 
     // Configure the client with your Discord bot token in the environment.
-    let token = env::var("DISCORD_TOKEN")
-        .expect("Expected a token in the environment");
+    let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
     // Create client
-    let mut client = Client::new(&token, Handler)
-        .expect("Err creating client");
+    let mut client = Client::new(&token, Handler).expect("Err creating client");
 
     // configure client
     client.with_framework(
         StandardFramework::new()
-            .configure(|c| c
-                       .with_whitespace(true)
-                       .prefix("!"))
+            .configure(|c| c.with_whitespace(true).prefix("!"))
             .unrecognised_command(|_, _, unknown_command_name| {
                 println!("Could not find command: '{}'", unknown_command_name);
             })
             .help(&MY_HELP)
-            .group(&INVOICE_GROUP));
-
+            .group(&INVOICE_GROUP),
+    );
 
     if let Err(why) = client.start() {
         println!("Client error: {:?}", why);
     }
 }
-
-// TODO: why am i getting the same help for the invoice function and it gets multiplied?

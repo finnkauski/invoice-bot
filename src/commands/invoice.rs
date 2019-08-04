@@ -23,7 +23,6 @@ pub fn say(ctx: &mut Context, msg: &Message, text: &str) {
     }
 }
 
-// TODO: abstract the message sending handling
 #[command]
 #[description = "Tells you some info on why this system is here"]
 pub fn explain(ctx: &mut Context, msg: &Message) -> CommandResult {
@@ -51,7 +50,7 @@ pub fn add(ctx: &mut Context, msg: &Message) -> CommandResult {
             "files/{}/{}/{}",
             msg.author.name, date, &attachment.filename
         ))?;
-        handle.write_all(content)?; // TODO: fix the unwraps
+        handle.write_all(content)?;
 
         Ok(())
     };
@@ -193,7 +192,6 @@ struct LogEntry {
     file: String,
 }
 
-// TODO: replace with json structure and a struct from serde
 fn handle_log(msg: &Message, filename: &str) {
     let file = OpenOptions::new().create(true).append(true).open("log.txt");
     let entry = LogEntry {
