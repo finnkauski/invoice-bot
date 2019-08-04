@@ -151,7 +151,7 @@ fn get(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
 
     // get a file name here based on user id hash
     let mut s = DefaultHasher::new();
-    name.hash(&mut s);
+    format!("{}{}", name, argument).hash(&mut s);
     let zipfile = format!("{}.zip", s.finish());
 
     // zip it all
