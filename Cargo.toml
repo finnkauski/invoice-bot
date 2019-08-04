@@ -7,9 +7,20 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# pick up things like API keys
 dotenv = "*"
+
+# logging
 log = "*"
 env_logger = "*"
+
+serde = "*"
+serde_derive = "*"
+serde_json ="*"
+# for zipping the receipts
+zip = "*"
+walkdir = "*"
+
 
 [dependencies.serenity]
 features = ["framework", "standard_framework"]

@@ -17,8 +17,7 @@ use log::info;
 use std::{collections::HashSet};
 
 // load in the commands from the sub-module
-mod commands;
-use commands::{invoice::*};
+use invoices::commands::{invoice::*};
 
 // event handler
 struct Handler;
@@ -39,9 +38,9 @@ group!({
     options: {
         description: "Invoice submission related commands.",
         prefix: "invoice",
-        default_command: explain
+        default_command: add
     },
-    commands: [explain, add],
+    commands: [explain, add, get],
 });
 
 // help setup
@@ -87,3 +86,5 @@ fn main() {
         println!("Client error: {:?}", why);
     }
 }
+
+// TODO: why am i getting the same help for the invoice function and it gets multiplied?
