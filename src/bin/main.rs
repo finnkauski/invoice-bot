@@ -58,7 +58,10 @@ fn my_help(
 
 // the brains
 fn main() {
-    dotenv::dotenv().ok();
+    match dotenv::dotenv() {
+        Ok(_) => println!("Environment loaded!"),
+        Err(e) => println!("Environment variables could not be loaded: {}", e),
+    }
     env_logger::init();
 
     // Configure the client with your Discord bot token in the environment.
@@ -66,6 +69,7 @@ fn main() {
 
     // Create client
     let mut client = Client::new(&token, Handler).expect("Err creating client");
+    println!("Client created given the token.");
 
     // configure client
     client.with_framework(
@@ -77,6 +81,7 @@ fn main() {
             .help(&MY_HELP)
             .group(&INVOICE_GROUP),
     );
+    println!("Configured client successfully. Now running...");
 
     if let Err(why) = client.start() {
         println!("Client error: {:?}", why);
