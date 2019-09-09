@@ -14,6 +14,9 @@ The `.env` file should contain your DISCORD_TOKEN in the format:
 DISCORD_TOKEN=_______________________
 ```
 
+### Get binary
+You can get the binary from the release section of this repo
+
 ## To compile
 
 You probably need a nightly version of Rust and cargo. Then just clone the repo and run `cargo build --release`
